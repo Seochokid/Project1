@@ -14,9 +14,7 @@ library :: library() {
 	G.clear();
 	F.clear();
 	resource_data();
-	//print_resource();
 	result();
-	//print_member();
 }
 
 void library :: resource_data() {
@@ -49,7 +47,6 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 		if(s.getName() == r_name) flag = 1;
 	}
 	if(flag == 0) {
-		//cout << cnt << "\t" << "1\t" << "Non exist resource." << "\n";
 		output = output + to_string(cnt) + "\t" + "1\t" + "Non exist resource." + "\n";
 		return output;
 	}
@@ -59,7 +56,6 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 		if(m_type == "Undergraduate") {
 			for(auto s : U) {
 				if(s.get_member() == m_name && s.get_borrow_num() > 0) {
-					//cout << cnt << "\t" << "2\t" << "Exceeds your possible number of borrow. Possible # of borrows: 1" << "\n";
 					output = output + to_string(cnt) + "\t" + "2\t" + "Exceeds your possible number of borrow. Possible # of borrows: 1" + "\n";
 					return output;
 				}
@@ -87,14 +83,12 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 	//return_code 3 : You did not borrow this book
 	if(op == "R") {
 		if(!is_registered(m_name, m_type)) {
-			//cout << cnt << "\t" << "3\t" << "You did not borrow this book" << "\n";
 			output = output + to_string(cnt) + "\t" + "3\t" + "You did not borrow this book." + "\n";
 			return output;
 		}
 		if(m_type == "Undergraduate") {
 			for(auto s : U) {
 				if(s.get_member() == m_name && !(s.get_borrow_fact(r_name))) {
-					//cout << cnt << "\t" << "3\t" << "You did not borrow this book." << "\n";
 					output = output + to_string(cnt) + "\t" + "3\t" + "You did not borrow this book." + "\n";
 					return output;
 				}
@@ -152,7 +146,6 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 		if(r_type == "Book") {
 			for(auto s : B) {
 				if(s.getName() == r_name && s.get_who_borrow() != "" && s.get_who_borrow() != m_name) {
-					//cout << cnt << "\t" << "5\t" << "Other member already borrowed this book. This book will be returned at "<< DtoString(s.get_borrow_date()+13) << "\n";
 					output = output + to_string(cnt) + "\t" + "5\t" + "Other member already borrowed this book. This book will be returned at "+ DtoString(s.get_borrow_date()+13) + "\n";
 					return output;
 				}
@@ -181,7 +174,6 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 		if(m_type == "Undergraduate") {
 			for(auto s : U) {
 				if(s.get_member() == m_name && s.get_restrict_date() >= date) {
-					//cout << cnt << "\t" << "6\t" << "Restricted member until "<< DtoString(s.get_restrict_date()) << "\n";
 					output = output + to_string(cnt) + "\t" + "6\t" + "Restricted member until "+ DtoString(s.get_restrict_date()) + "\n";
 					return output;
 				}
@@ -209,7 +201,6 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 	if(op == "R") {
 		for(auto s : U) {
 			if(s.get_member() == m_name && s.get_borrow_date(r_name)+13 < date) {
-				//cout << cnt << "\t" << "7\t" << "Delayed return. You'll be restricted until "<< DtoString(2*date - (s.get_borrow_date(r_name)+13)) << "\n";
 				output = output + to_string(cnt) + "\t" + "7\t" + "Delayed return. You'll be restricted until "+ DtoString(2*date - (s.get_borrow_date(r_name)+13)) + "\n";
 				Update(date, m_type, m_name, r_type, r_name, 1);
 				return output;
@@ -353,7 +344,6 @@ void library :: Update(int date, string m_type, string m_name, string r_type, st
 						else ++iter;
 					}
 					M.push_back(s);
-					//cout << s.get_who_borrow() << endl;
 					break;
 				}
 			}
@@ -370,7 +360,6 @@ void library :: Update(int date, string m_type, string m_name, string r_type, st
 						else ++iter;
 					}
 					E.push_back(s);
-					//cout << s.get_who_borrow() << endl;
 					break;
 				}
 			}
@@ -590,12 +579,12 @@ void library :: result() {
 
 void library :: print_resource() {
 	for(auto s : B) cout << s.getName() << endl;
-	//for(auto s : M) cout << s.getName() << endl;
-	//for(auto s : E) cout << s.getName() << endl;
+	for(auto s : M) cout << s.getName() << endl;
+	for(auto s : E) cout << s.getName() << endl;
 }
 
 void library :: print_member() {
 	for(auto s : U) cout << s.get_member() << endl;
-	//for(auto s : G) cout << s.get_member() << endl;
-	//for(auto s : F) cout << s.get_member() << endl;
+	for(auto s : G) cout << s.get_member() << endl;
+	for(auto s : F) cout << s.get_member() << endl;
 }
