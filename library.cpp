@@ -63,7 +63,6 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 		} else if(m_type == "Graduate") {
 			for(auto s : G) {
 				if(s.get_member() == m_name && s.get_borrow_num() > 1) {
-					cout << cnt << "\t" << "2\t" << "Exceeds your possible number of borrow. Possible # of borrows: ?" << "\n";
 					output = output + to_string(cnt) + "\t" + "2\t" + "Exceeds your possible number of borrow. Possible # of borrows: ?" + "\n";
 					return output;
 				}
@@ -71,7 +70,6 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 		} else {
 			for(auto s : F) {
 				if(s.get_member() == m_name && s.get_borrow_num() > 2) {
-					cout << cnt << "\t" << "2\t" << "Exceeds your possible number of borrow. Possible # of borrows: ?" << "\n";
 					output = output + to_string(cnt) + "\t" + "2\t" + "Exceeds your possible number of borrow. Possible # of borrows: ?" + "\n";
 					return output;
 				}
@@ -96,7 +94,6 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 		} else if(m_type == "Graduate") {
 			for(auto s : G) {
 				if(s.get_member() == m_name && !(s.get_borrow_fact(r_name))) {
-					cout << cnt << "\t" << "3\t" << "You did not borrow this book" << "\n";
 					output = output + to_string(cnt) + "\t" + "3\t" + "You did not borrow this book." + "\n";
 					return output;
 				}
@@ -104,7 +101,6 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 		} else {
 			for(auto s : F) {
 				if(s.get_member() == m_name && !(s.get_borrow_fact(r_name))) {
-					cout << cnt << "\t" << "3\t" << "You did not borrow this book" << "\n";
 					output = output + to_string(cnt) + "\t" + "3\t" + "You did not borrow this book." + "\n";
 					return output;
 				}
@@ -117,7 +113,6 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 		if(m_type == "Undergraduate") {
 			for(auto s : U) {
 				if(s.get_member() == m_name && s.get_borrow_fact(r_name)) {
-					cout << cnt << "\t" << "4\t" << "You already borrowed this book at "<< DtoString(s.get_borrow_date(r_name)) << "\n";
 					output = output + to_string(cnt) + "\t" + "4\t" + "You already borrowed this book at "+ DtoString(s.get_borrow_date(r_name)) + "\n";
 					return output;
 				}
@@ -125,7 +120,6 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 		} else if(m_type == "Graduate") {
 			for(auto s : G) {
 				if(s.get_member() == m_name && !(s.get_borrow_fact(r_name))) {
-					cout << cnt << "\t" << "4\t" << "You already borrowed this book at "<< DtoString(s.get_borrow_date(r_name)) << "\n";
 					output = output + to_string(cnt) + "\t" + "4\t" + "You already borrowed this book at "+ DtoString(s.get_borrow_date(r_name)) + "\n";
 					return output;
 				}
@@ -133,7 +127,6 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 		} else {
 			for(auto s : F) {
 				if(s.get_member() == m_name && !(s.get_borrow_fact(r_name))) {
-					cout << cnt << "\t" << "4\t" << "You already borrowed this book at "<< DtoString(s.get_borrow_date(r_name)) << "\n";
 					output = output + to_string(cnt) + "\t" + "4\t" + "You already borrowed this book at "+ DtoString(s.get_borrow_date(r_name)) + "\n";
 					return output;
 				}
@@ -153,7 +146,6 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 		} else if(r_type == "Magazine") {
 			for(auto s : M) {
 				if(s.getName() == r_name && s.get_who_borrow() != m_name) {
-					cout << cnt << "\t" << "5\t" << "Other member already borrowed this book. This book will be returned at  "<< DtoString(s.get_borrow_date()+13) << "\n";
 					output = output + to_string(cnt) + "\t" + "5\t" + "Other member already borrowed this book. This book will be returned at "+ DtoString(s.get_borrow_date()+13) + "\n";
 					return output;
 				}
@@ -161,7 +153,6 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 		} else {
 			for(auto s : E) {
 				if(s.getName() == r_name && s.get_who_borrow() != m_name) {
-					cout << cnt << "\t" << "5\t" << "Other member already borrowed this book. This book will be returned at  "<< DtoString(s.get_borrow_date()+13) << "\n";
 					output = output + to_string(cnt) + "\t" + "5\t" + "Other member already borrowed this book. This book will be returned at "+ DtoString(s.get_borrow_date()+13) + "\n";
 					return output;
 				}
@@ -181,7 +172,6 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 		} else if(m_type == "Graduate") {
 			for(auto s : G) {
 				if(s.get_member() == m_name && s.get_restrict_date() >= date) {
-					cout << cnt << "\t" << "6\t" << "Restricted member until "<< DtoString(s.get_restrict_date()) << "\n";
 					output = output + to_string(cnt) + "\t" + "6\t" + "Restricted member until "+ DtoString(s.get_restrict_date()) + "\n";
 					return output;
 				}
@@ -189,7 +179,6 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 		} else {
 			for(auto s : F) {
 				if(s.get_member() == m_name && s.get_restrict_date() >= date) {
-					cout << cnt << "\t" << "6\t" << "Restricted member until "<< DtoString(s.get_restrict_date()) << "\n";
 					output = output + to_string(cnt) + "\t" + "6\t" + "Restricted member until "+ DtoString(s.get_restrict_date()) + "\n";
 					return output;
 				}
@@ -208,7 +197,6 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 		}
 		for(auto s : G) {
 			if(s.get_member() == m_name && s.get_borrow_date(r_name)+13 < date) {
-				cout << cnt << "\t" << "7\t" << "Delayed return. You'll be restricted until "<< DtoString(2*date - (s.get_borrow_date(r_name)+13)) << "\n";
 				output = output + to_string(cnt) + "\t" + "7\t" + "Delayed return. You'll be restricted until "+ DtoString(2*date - (s.get_borrow_date(r_name)+13)) + "\n";
 				s.set_restrict_date(2*date - (s.get_borrow_date(r_name)+13));
 				Update(date, m_type, m_name, r_type, r_name, 1);
@@ -217,7 +205,6 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 		}
 		for(auto s : F) {
 			if(s.get_member() == m_name && s.get_borrow_date(r_name)+13 < date) {
-				cout << cnt << "\t" << "7\t" << "Delayed return. You'll be restricted until "<< DtoString(2*date - (s.get_borrow_date(r_name)+13)) << "\n";
 				output = output + to_string(cnt) + "\t" + "7\t" + "Delayed return. You'll be restricted until "+ DtoString(2*date - (s.get_borrow_date(r_name)+13)) + "\n";
 				s.set_restrict_date(2*date - (s.get_borrow_date(r_name)+13));
 				Update(date, m_type, m_name, r_type, r_name, 1);
@@ -229,11 +216,9 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 	//return_code 0 : Success
 	if(op == "B") {
 		Update(date, m_type, m_name, r_type, r_name, 0);
-		//cout << cnt << "\t" << "0\t" << "Success." << "\n";
 		output = output + to_string(cnt) + "\t" + "0\t" + "Success." + "\n";
 	} else {
 		Update(date, m_type, m_name, r_type, r_name, 1);
-		//cout << cnt << "\t" << "0\t" << "Success." << "\n";
 		output = output + to_string(cnt) + "\t" + "0\t" + "Success." + "\n";
 	}
 	return output;
@@ -327,7 +312,6 @@ void library :: Update(int date, string m_type, string m_name, string r_type, st
 						else ++iter;
 					}
 					B.push_back(s);
-					//cout << s.get_who_borrow() << endl;
 					break;
 				}
 			}
