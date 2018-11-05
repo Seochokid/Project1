@@ -5,6 +5,7 @@ library 클래스를 선언하면 resource.dat 파일과 input.dat 파일을 읽
 * It is simple. just type ```make```
 ```
 % make
+% ./library
 % diff output.dat <original_output_file_name>.dat
 ```
 # Class description
