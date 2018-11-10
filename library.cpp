@@ -224,6 +224,10 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 	return output;
 }
 
+string library :: check2(int cnt, int s_date, string s_type, int s_num, string s_op, string sm_type, string sm_name, int sm_num, int s_time) {
+
+}
+
 void library :: Update(int date, string m_type, string m_name, string r_type, string r_name, int op) {
 	if(op == 0) { //op=0 : borrow update
 		//borrow update member
@@ -539,26 +543,97 @@ string library :: DtoString(int date) {
 	return str;
 }
 
+int DtoHour(string date) {
+    int hour;
+    string h;
+    char *str_buff = new char[14];
+    strcpy(str_buff, date.c_str());
+    char *tok = strtok(str_buff,"/");
+    tok = strtok(nullptr,"/");
+    tok = strtok(nullptr,"/");
+    tok = strtok(nullptr,"/");
+    h = tok;
+    hour = stoi(h);
+    return hour;
+}
+
 void library :: result() {
 	ifstream fin("input.dat");
+	ifstream fin2("space.dat");
 	ofstream fout("output.dat");
 	string dummy, date, r_type, r_name, op, m_type, m_name;
+	string s_date, s_type, s_num, s_op, sm_type, sm_name, sm_num, s_time;
 	for(int i = 0; i < 6; i ++) {
 		fin >> dummy;
 	}
+    for(int i = 0; i < 8; i++) {
+        fin2 >> dummy;
+    }
 	int cnt = 0;
+    int flag = 0;
+    int flag2 = 0;
 	fout << "Op_#\tReturn_code\tDescription\n"; 
 	string res;
-	while(fin >> date) {
-		cnt ++;
-		int day = DtoInt(date);
-		fin >> r_type;
-		fin >> r_name;
-		fin >> op;
-		fin >> m_type;
-		fin >> m_name;
-		res += check(cnt, day, r_type, r_name, op, m_type, m_name);
-	}
+
+    while(true) {
+        if(flag2 == 0 || flag2 == 1) {
+            if(!(fin >> date)) {
+                flag = 0;
+                break;
+            }
+        }
+        if(flag2 == 0 || flag2 == 2) {
+            if(!(fin2 >> s_date)) {
+                flag = 1;
+                break;
+            }
+        }
+
+        if(DtoInt(date) <= DtoInt(s_date)) {
+            flag2 = 1;
+			int day = DtoInt(date);
+            fin >> r_type;
+            fin >> r_name;
+            fin >> op;
+            fin >> m_type;
+            fin >> m_name;
+            res += check(cnt++, day, r_type, r_name, op, m_type, m_name);
+        } else if(DtoInt(date) > DtoInt(s_date)) {
+            flag2 = 2;
+			int day = DtoInt(s_date);
+            fin2 >> s_type;
+            fin2 >> s_num;
+            fin2 >> s_op;
+            fin2 >> sm_type;
+            fin2 >> sm_name;
+            fin2 >> sm_num;
+            fin2 >> s_time;
+            res += check2(cnt++, day, r_type, r_name, op, m_type, m_name);
+        }
+    }
+    if(flag == 0) {
+        while(fin2 >> s_type) {
+			int day = DtoInt(s_date);
+            fin2 >> s_num;
+            fin2 >> s_op;
+            fin2 >> sm_type;
+            fin2 >> sm_name;
+            fin2 >> sm_num;
+            fin2 >> s_time;
+            res += check2(cnt++, day, r_type, r_name, op, m_type, m_name);
+            fin2 >> s_date;
+        }
+    } else if(flag == 1) {
+        while(fin >> r_type) {
+			int day = DtoInt(date);
+            fin >> r_name;
+            fin >> op;
+            fin >> m_type;
+            fin >> m_name;
+            res += check(cnt++, day, r_type, r_name, op, m_type, m_name);
+            fin >> date;
+        }
+    }
 	fout << res;
 }
 
