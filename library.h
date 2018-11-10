@@ -2,6 +2,7 @@
 #include <vector>
 #include "member.h"
 #include "resource.h"
+#include "space.h"
 using namespace std;
 
 class library {
@@ -12,6 +13,9 @@ private:
 	vector<undergraduate> U;
 	vector<graduate> G;
 	vector<faculty> F;
+
+	vector<Study_room*> srooms;
+	vector<Seat*> seats;
 public:
 	library();
 	void resource_data();
