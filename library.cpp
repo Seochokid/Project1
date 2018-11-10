@@ -665,7 +665,8 @@ int library :: DtoInt(string date) {
 
 	char *tok = strtok(str_buff,"/");
 	y = tok;
-	year = stoi(y);
+    if(date.length() == 8) year = stoi(y);
+    else year = stoi(y)-2000;
 
 	tok = strtok(nullptr,"/");
 	m = tok;
