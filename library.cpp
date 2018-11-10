@@ -7,14 +7,35 @@
 using namespace std;
 
 library :: library() {
+	today = 0;
 	B.clear();
 	M.clear();
 	E.clear();
 	U.clear();
 	G.clear();
 	F.clear();
+	for(int i = 1; i < 11; i++) {
+		Study_room* tmp = new Study_room(i, 0);
+		srooms.push_back(tmp);
+	}
+	for(int i = 1; i < 4; i++) {
+		for(int j = 0; j < 50; j++) {
+			Seat* tmp = new Seat(i, j);
+			seats.push_back(tmp);
+		}
+	}
 	resource_data();
 	result();
+	for(int i = 1; i < 11; i++) {
+		delete srooms.back();
+		srooms.pop_back();
+	}
+	for(int i = 1; i < 4; i++) {
+		for(int j = 0; j < 50; j++) {
+			delete seats.back();
+			seats.pop_back();
+		}
+	}
 }
 
 void library :: resource_data() {
@@ -40,6 +61,7 @@ void library :: resource_data() {
 }
 
 string library :: check(int cnt, int date, string r_type, string r_name, string op, string m_type, string m_name) {
+	refresh(date);
 	//return_code 1 : Non exist resource.
 	string output;
 	int flag = 0;
@@ -224,8 +246,8 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 	return output;
 }
 
-string library :: check2(int cnt, int s_date, string s_type, int s_num, string s_op, string sm_type, string sm_name, int sm_num, int s_time) {
-
+string library :: check2(int cnt, int s_date, string s_type, int s_num, string s_op, string sm_type, string sm_name, int sm_num, int s_time, int hour) {
+	refresh(s_date);
 }
 
 void library :: Update(int date, string m_type, string m_name, string r_type, string r_name, int op) {
@@ -608,7 +630,7 @@ void library :: result() {
             fin2 >> sm_name;
             fin2 >> sm_num;
             fin2 >> s_time;
-            res += check2(cnt++, day, r_type, r_name, op, m_type, m_name);
+            res += check2(cnt++, day, s_type, stoi(s_num), s_op, sm_type, sm_name, stoi(sm_num), stoi(s_time), DtoHour(date));
         }
     }
     if(flag == 0) {
@@ -620,7 +642,7 @@ void library :: result() {
             fin2 >> sm_name;
             fin2 >> sm_num;
             fin2 >> s_time;
-            res += check2(cnt++, day, r_type, r_name, op, m_type, m_name);
+            res += check2(cnt++, day, s_type, stoi(s_num), s_op, sm_type, sm_name, stoi(sm_num), stoi(s_time), DtoHour(date));
             fin2 >> s_date;
         }
     } else if(flag == 1) {
@@ -647,4 +669,16 @@ void library :: print_member() {
 	for(auto s : U) cout << s.get_member() << endl;
 	for(auto s : G) cout << s.get_member() << endl;
 	for(auto s : F) cout << s.get_member() << endl;
+}
+
+void library :: refresh(int day) {
+	if(today != day) {
+		today = day;
+		for(auto s : srooms) {
+			s->set_Sroom('N', "", 0, 0);
+		}
+		for(auto s : seats) {
+			s->set_Seat('N', "", 0);
+		}
+	}
 }

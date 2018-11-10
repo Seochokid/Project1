@@ -22,14 +22,15 @@ private:
     int how_many;
 public:
 	Study_room(int num, int many);
-    void set_Sroom(char in, string who, int when, int num, int many);
+    void set_Sroom(char in, string who, int when, int many);
 };
 
 class Seat : public Space{
 private:
     int floor;
+    int seat_num;
 public:
-	Seat(int f);
-    void set_Seat(char in, string who, int when, int f);
+	Seat(int f, int num);
+    void set_Seat(char in, string who, int when);
     bool isAble(int time);
 };

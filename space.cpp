@@ -35,21 +35,20 @@ Study_room :: Study_room(int num, int many) {
     how_many = many;
 }
 
-void Study_room :: set_Sroom(char in, string who, int when, int num, int many) {
+void Study_room :: set_Sroom(char in, string who, int when, int many) {
     set_state(in);
     set_borrow(who, when);
-    room_num = num;
     how_many = many;
 }
 
-Seat :: Seat(int f) {
+Seat :: Seat(int f, int num) {
     floor = f;
+    seat_num = num;
 }
 
-void Seat :: set_Seat(char in, string who, int when, int f) {
+void Seat :: set_Seat(char in, string who, int when) {
     set_state(in);
     set_borrow(who, when);
-    floor = f;
 }
 
 bool Seat :: isAble(int time) {
