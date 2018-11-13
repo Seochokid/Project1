@@ -268,7 +268,7 @@ string library :: check2(int cnt, string s_dateS, string s_type, int s_num, stri
 		} else if(s_type == "Seat" && s_num == 3 && (hour < 9 || hour >= 18)) {
 			output = output + to_string(cnt) + "\t" + "9\t" + "This space is not available now. Available from 09 to 21.\n";
 			return output;
-		} else return "Error\n";
+		}
 	}
 
 	//return_code 10 : You did not borrow this space
@@ -291,8 +291,6 @@ string library :: check2(int cnt, string s_dateS, string s_type, int s_num, stri
 				output = output + to_string(cnt) + "\t" + "10\t" + "You did not borrow this space\n";
 				return output;
 			}
-		} else {
-			return "Error on return_code_10\n";
 		}
 	}
 
@@ -312,8 +310,6 @@ string library :: check2(int cnt, string s_dateS, string s_type, int s_num, stri
 					return output;
 				}
 			}
-		} else {
-			return "Error on return_code_11\n";
 		}
 	}
 
@@ -329,8 +325,6 @@ string library :: check2(int cnt, string s_dateS, string s_type, int s_num, stri
 				output = output + to_string(cnt) + "\t" + "12\t" + "Exceed available number.\n";
 				return output;
 			}
-		} else {
-			return "Error on return_code_12\n";
 		}
 	}
 
@@ -346,8 +340,6 @@ string library :: check2(int cnt, string s_dateS, string s_type, int s_num, stri
 				output = output + to_string(cnt) + "\t" + "13\t" + "Exceed available time.\n";
 				return output;
 			}
-		} else {
-			return "Error on return_code_13\n";
 		}
 	}
 
@@ -393,8 +385,6 @@ string library :: check2(int cnt, string s_dateS, string s_type, int s_num, stri
 				output = output + to_string(cnt) + "\t" + "14\t" + "There is no remain space. This space is available after " + next_time + ".\n";
 				return output;
 			}
-		} else {
-			return "Error on return_code_14\n";
 		}
 	}
 
@@ -430,8 +420,6 @@ string library :: check2(int cnt, string s_dateS, string s_type, int s_num, stri
 					return output;
 				}
 			}
-		} else {
-			return "Error_code_0_s_type\n";
 		}
 	} else if(s_op == "R") {
 		if(s_type == "StudyRoom") {
@@ -450,8 +438,6 @@ string library :: check2(int cnt, string s_dateS, string s_type, int s_num, stri
 					return output;
 				}
 			}
-		} else {
-			return "Error_code_0_s_type\n";
 		}
 	} else if(s_op == "E") {
 		if(s_type == "StudyRoom") {
@@ -471,8 +457,6 @@ string library :: check2(int cnt, string s_dateS, string s_type, int s_num, stri
 					return output;
 				}
 			}
-		} else {
-			return "Error_code_0_s_type\n";
 		}
 	} else if(s_op == "C") {
 		if(s_type == "StudyRoom") {
@@ -492,12 +476,9 @@ string library :: check2(int cnt, string s_dateS, string s_type, int s_num, stri
 					return output;
 				}
 			}
-		} else {
-			return "Error_code_0_s_type\n";
 		}
-	} else {
-		return "Error_code_0_s_op\n";
 	}
+	return "Error!\n";
 }
 
 void library :: Update(int date, string m_type, string m_name, string r_type, string r_name, int op) {
