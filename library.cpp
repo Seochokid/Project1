@@ -7,7 +7,7 @@
 using namespace std;
 
 library :: library() {
-	today = 0;
+	today = "";
 	B.clear();
 	M.clear();
 	E.clear();
@@ -20,7 +20,7 @@ library :: library() {
 	}
 	for(int i = 1; i < 4; i++) {
 		for(int j = 0; j < 50; j++) {
-			Seat* tmp = new Seat(i, j);
+			Seat* tmp = new Seat(i, j, 0);
 			seats.push_back(tmp);
 		}
 	}
@@ -60,8 +60,9 @@ void library :: resource_data() {
 	}
 }
 
-string library :: check(int cnt, int date, string r_type, string r_name, string op, string m_type, string m_name) {
-	refresh(date);
+string library :: check(int cnt, string dateS, string r_type, string r_name, string op, string m_type, string m_name) {
+	int date = DtoInt(dateS);
+	refresh(dateS);
 	//return_code 1 : Non exist resource.
 	string output;
 	int flag = 0;
@@ -246,8 +247,257 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 	return output;
 }
 
-string library :: check2(int cnt, int s_date, string s_type, int s_num, string s_op, string sm_type, string sm_name, int sm_num, int s_time, int hour) {
-	refresh(s_date);
+string library :: check2(int cnt, string s_dateS, string s_type, int s_num, string s_op, string sm_type, string sm_name, int sm_num, int s_time, int hour) {
+	refresh(s_dateS);
+	int s_date = DtoInt(s_dateS);
+	string output;
+	//return_code 8 : Invalid space id
+	if((s_type == "StudyRoom" && (s_num > 10 || s_num < 1)) || (s_type == "Seat" && (s_num > 3 || s_num < 1))) {
+		output = output + to_string(cnt) + "\t" + "8\t" + "Invalid space id.\n";
+		return output;
+	}
+
+	//return_code 9 : This space is not available now
+	if(s_op == "B") {
+		if(s_type == "StudyRoom" && (hour < 9 || hour >= 18)) {
+			output = output + to_string(cnt) + "\t" + "9\t" + "This space is not available now. Available from 09 to 18.\n";
+			return output;
+		} else if(s_type == "Seat" && s_num == 2 && (hour < 9 || hour >= 21)) {
+			output = output + to_string(cnt) + "\t" + "9\t" + "This space is not available now. Available from 09 to 21.\n";
+			return output;
+		} else if(s_type == "Seat" && s_num == 3 && (hour < 9 || hour >= 18)) {
+			output = output + to_string(cnt) + "\t" + "9\t" + "This space is not available now. Available from 09 to 21.\n";
+			return output;
+		} else return "Error\n";
+	}
+
+	//return_code 10 : You did not borrow this space
+	if(s_op != "B") {
+		if(s_type == "StudyRoom") {
+			for(auto s : srooms) {
+				if(s->get_roomNum() == s_num && s->get_who() != sm_name) {
+					output = output + to_string(cnt) + "\t" + "10\t" + "You did not borrow this space\n";
+					return output;
+				}
+			}
+		} else if(s_type == "Seat") {
+			int flag = 0;
+			for(auto s : seats) {
+				if(s->get_floor() == s_num && s->get_who() == sm_name) {
+					flag = 1;
+				}
+			}
+			if(flag == 0) {
+				output = output + to_string(cnt) + "\t" + "10\t" + "You did not borrow this space\n";
+				return output;
+			}
+		} else {
+			return "Error on return_code_10\n";
+		}
+	}
+
+	//return_code 11 : You already borrow this kind of space
+	if(s_op == "B") {
+		if(s_type == "StudyRoom") {
+			for(auto s : srooms) {
+				if(s->get_who() == sm_name) {
+					output = output + to_string(cnt) + "\t" + "11\t" + "You already borrow this kind of space\n";
+					return output;
+				}
+			}
+		} else if(s_type == "Seat") {
+			for(auto s : seats) {
+				if(s->get_who() == sm_name) {
+					output = output + to_string(cnt) + "\t" + "11\t" + "You already borrow this kind of space\n";
+					return output;
+				}
+			}
+		} else {
+			return "Error on return_code_11\n";
+		}
+	}
+
+	//return_code 12 : Exceed available number
+	if(s_op == "B") {
+		if(s_type == "StudyRoom") {
+			if(sm_num > 6) {
+				output = output + to_string(cnt) + "\t" + "12\t" + "Exceed available number.\n";
+				return output;
+			}
+		} else if(s_type == "Seat") {
+			if(sm_num > 1) {
+				output = output + to_string(cnt) + "\t" + "12\t" + "Exceed available number.\n";
+				return output;
+			}
+		} else {
+			return "Error on return_code_12\n";
+		}
+	}
+
+	//return_code 13 : Exceed available time
+	if(s_op == "B") {
+		if(s_type == "StudyRoom") {
+			if(s_time > 3) {
+				output = output + to_string(cnt) + "\t" + "13\t" + "Exceed available time.\n";
+				return output;
+			}
+		} else if(s_type == "Seat") {
+			if(sm_type == "Undergraduate" && s_time > 3) {
+				output = output + to_string(cnt) + "\t" + "13\t" + "Exceed available time.\n";
+				return output;
+			}
+		} else {
+			return "Error on return_code_13\n";
+		}
+	}
+
+	//return_code 14 : There is no remain space
+	if(s_op == "B") {
+		string next_time;
+		if(s_type == "StudyRoom") {
+			for(auto s : srooms) {
+				if(s->get_roomNum() == s_num && s->get_state() != 'N') {
+					if(s->get_when() >= 18) {
+						next_time = "09";
+					} else {
+						next_time = HtoString(s->get_when());
+					}
+					output = output + to_string(cnt) + "\t" + "14\t" + "There is no remain space. This space is available after " + next_time + ".\n";
+					return output;
+				}
+			}
+		} else if(s_type == "Seat") {
+			int min = 0;
+			int flag = 0;
+			for(auto s : seats) {
+				if(s->get_floor() == s_num) {
+					if(s->get_state() == 'N') {
+						flag = 1;
+					} else {
+						if(min > s->get_when()) min = s->get_when();
+					}
+				}
+			}
+			if(flag == 0) {
+				if(s_num == 1) {
+					if(min >= 24) {
+						next_time = "00";
+					} else {
+						next_time = HtoString(min);
+					}
+				} else if((s_num == 2 && min >= 21) || (s_num == 3 && min >= 18)) {
+					next_time = "09";
+				} else {
+					next_time = HtoString(min);
+				}
+				output = output + to_string(cnt) + "\t" + "14\t" + "There is no remain space. This space is available after " + next_time + ".\n";
+				return output;
+			}
+		} else {
+			return "Error on return_code_14\n";
+		}
+	}
+
+	//return_code 0 : Success
+	if(s_op == "B") {
+		//update member
+		if(!is_registered(sm_name, sm_type)) {
+			//Not registed member
+			if(sm_type == "Undergraduate") {
+				undergraduate _mem(sm_name);
+				U.push_back(_mem);
+			} else if(sm_type == "Graduate") {
+				graduate _mem(sm_name);
+				G.push_back(_mem);
+			} else {
+				faculty _mem(sm_name);
+				F.push_back(_mem);
+			}
+		}
+		if(s_type == "StudyRoom") {
+			for(auto s : srooms) {
+				if(s->get_roomNum() == s_num && s->get_state() == 'N') {
+					s->set_Sroom('U', sm_name, hour+s_time, sm_num);
+					output = output + to_string(cnt) + "\t" + "0\t" + "Success.\n";
+					return output;
+				}
+			}
+		} else if(s_type == "Seat") {
+			for(auto s : seats) {
+				if(s->get_floor() == s_num && s->get_state() == 'N') {
+					s->set_Seat('U', sm_name, hour+s_time, 0);
+					output = output + to_string(cnt) + "\t" + "0\t" + "Success.\n";
+					return output;
+				}
+			}
+		} else {
+			return "Error_code_0_s_type\n";
+		}
+	} else if(s_op == "R") {
+		if(s_type == "StudyRoom") {
+			for(auto s : srooms) {
+				if(s->get_roomNum() == s_num && s->get_state() != 'N') {
+					s->set_Sroom('N', "", 0, 0);
+					output = output + to_string(cnt) + "\t" + "0\t" + "Success.\n";
+					return output;
+				}
+			}
+		} else if(s_type == "Seat") {
+			for(auto s : seats) {
+				if(s->get_floor() == s_num && s->get_who() == sm_name && s->get_state() != 'N') {
+					s->set_Seat('N', "", 0, 0);
+					output = output + to_string(cnt) + "\t" + "0\t" + "Success.\n";
+					return output;
+				}
+			}
+		} else {
+			return "Error_code_0_s_type\n";
+		}
+	} else if(s_op == "E") {
+		if(s_type == "StudyRoom") {
+			for(auto s : srooms) {
+				if(s->get_roomNum() == s_num && s->get_state() == 'U') {
+					s->set_state('A');
+					output = output + to_string(cnt) + "\t" + "0\t" + "Success.\n";
+					return output;
+				}
+			}
+		} else if(s_type == "Seat") {
+			for(auto s : seats) {
+				if(s->get_floor() == s_num && s->get_who() == sm_name && s->get_state() == 'U') {
+					s->set_state('A');
+					s->set_come(hour+1);
+					output = output + to_string(cnt) + "\t" + "0\t" + "Success.\n";
+					return output;
+				}
+			}
+		} else {
+			return "Error_code_0_s_type\n";
+		}
+	} else if(s_op == "C") {
+		if(s_type == "StudyRoom") {
+			for(auto s : srooms) {
+				if(s->get_roomNum() == s_num && s->get_state() == 'A') {
+					s->set_state('U');
+					output = output + to_string(cnt) + "\t" + "0\t" + "Success.\n";
+					return output;
+				}
+			}
+		} else if(s_type == "Seat") {
+			for(auto s : seats) {
+				if(s->get_floor() == s_num && s->get_who() == sm_name && s->get_state() == 'A') {
+					s->set_state('U');
+					s->set_come(0);
+					output = output + to_string(cnt) + "\t" + "0\t" + "Success.\n";
+					return output;
+				}
+			}
+		} else {
+			return "Error_code_0_s_type\n";
+		}
+	} else {
+		return "Error_code_0_s_op\n";
+	}
 }
 
 void library :: Update(int date, string m_type, string m_name, string r_type, string r_name, int op) {
@@ -613,46 +863,52 @@ void library :: result() {
 
         if(DtoInt(date) <= DtoInt(s_date)) {
             flag2 = 1;
-			int day = DtoInt(date);
             fin >> r_type;
             fin >> r_name;
             fin >> op;
             fin >> m_type;
             fin >> m_name;
-            res += check(cnt++, day, r_type, r_name, op, m_type, m_name);
+            res += check(cnt++, date, r_type, r_name, op, m_type, m_name);
         } else if(DtoInt(date) > DtoInt(s_date)) {
             flag2 = 2;
-			int day = DtoInt(s_date);
             fin2 >> s_type;
             fin2 >> s_num;
             fin2 >> s_op;
             fin2 >> sm_type;
             fin2 >> sm_name;
-            fin2 >> sm_num;
-            fin2 >> s_time;
-            res += check2(cnt++, day, s_type, stoi(s_num), s_op, sm_type, sm_name, stoi(sm_num), stoi(s_time), DtoHour(date));
+			if(s_op == "B") {
+				fin2 >> sm_num;
+				fin2 >> s_time;		
+			} else {
+				sm_num = "0";
+				s_time = "0";
+			}
+            res += check2(cnt++, s_date, s_type, stoi(s_num), s_op, sm_type, sm_name, stoi(sm_num), stoi(s_time), DtoHour(date));
         }
     }
     if(flag == 0) {
         while(fin2 >> s_type) {
-			int day = DtoInt(s_date);
             fin2 >> s_num;
             fin2 >> s_op;
             fin2 >> sm_type;
             fin2 >> sm_name;
-            fin2 >> sm_num;
-            fin2 >> s_time;
-            res += check2(cnt++, day, s_type, stoi(s_num), s_op, sm_type, sm_name, stoi(sm_num), stoi(s_time), DtoHour(date));
+			if(s_op == "B") {
+				fin2 >> sm_num;
+				fin2 >> s_time;		
+			} else {
+				sm_num = "0";
+				s_time = "0";
+			}
+            res += check2(cnt++, s_date, s_type, stoi(s_num), s_op, sm_type, sm_name, stoi(sm_num), stoi(s_time), DtoHour(date));
             fin2 >> s_date;
         }
     } else if(flag == 1) {
         while(fin >> r_type) {
-			int day = DtoInt(date);
             fin >> r_name;
             fin >> op;
             fin >> m_type;
             fin >> m_name;
-            res += check(cnt++, day, r_type, r_name, op, m_type, m_name);
+            res += check(cnt++, date, r_type, r_name, op, m_type, m_name);
             fin >> date;
         }
     }
@@ -671,14 +927,73 @@ void library :: print_member() {
 	for(auto s : F) cout << s.get_member() << endl;
 }
 
-void library :: refresh(int day) {
-	if(today != day) {
-		today = day;
+void library :: refresh(string date) {
+	if(DtoInt(today) != DtoInt(date)) {
+		today = date;
 		for(auto s : srooms) {
 			s->set_Sroom('N', "", 0, 0);
 		}
 		for(auto s : seats) {
-			s->set_Seat('N', "", 0);
+			s->set_Seat('N', "", 0, 0);
+		}
+	} else {
+		if(date.length() == 13) {
+			today = date;
+			int currentH = DtoHour(date);
+			if(currentH > 18) {
+				for(auto s : srooms) {
+					s->set_Sroom('N', "", 0, 0);
+				}
+				for(auto s : seats) {
+					if(s->get_floor() == 3) {
+						s->set_Seat('N', "", 0, 0);
+					}
+				}
+			} else if(currentH > 21) {
+				for(auto s : seats) {
+					if(s->get_floor() == 2) {
+						s->set_Seat('N', "", 0, 0);
+					}
+				}
+			}
+			for(auto s : srooms) {
+				if(s->get_state() != 'N' && currentH >= s->get_when()) {
+					s->set_Sroom('N', "", 0, 0);
+				}
+			}
+			for(auto s : seats) {
+				if(s->get_state() == 'U' && currentH >= s->get_when()) {
+					s->set_Seat('N', "", 0, 0);
+				} else if(s->get_state() == 'A' && currentH >= s->get_come()) {
+					s->set_Seat('N', "", 0, 0);
+				}
+			}
 		}
 	}
+}
+
+string library :: get_type(string name) {
+	for(auto s : U) {
+		if(s.get_member() == name) {
+			return "Undergraduate";
+		}
+	}
+	for(auto s : G) {
+		if(s.get_member() == name) {
+			return "Graduate";
+		}
+	}
+	for(auto s : F) {
+		if(s.get_member() == name) {
+			return "Faculty";
+		}
+	}
+	return "Error_get_type";
+}
+
+string library :: HtoString(int hour) {
+	string str;
+	if(hour<10) str = "0" + to_string(hour);
+	else str = to_string(hour);
+	return str;
 }
