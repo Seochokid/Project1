@@ -815,7 +815,7 @@ string library :: DtoString(int date) {
 	return str;
 }
 
-int DtoHour(string date) {
+int library :: DtoHour(string date) {
     int hour;
     string h;
     char *str_buff = new char[14];
@@ -883,7 +883,7 @@ void library :: result() {
 				sm_num = "0";
 				s_time = "0";
 			}
-            res += check2(cnt++, s_date, s_type, stoi(s_num), s_op, sm_type, sm_name, stoi(sm_num), stoi(s_time), DtoHour(date));
+            res += check2(cnt++, s_date, s_type, stoi(s_num), s_op, sm_type, sm_name, stoi(sm_num), stoi(s_time), DtoHour(s_date));
         }
     }
     if(flag == 0) {
@@ -899,7 +899,7 @@ void library :: result() {
 				sm_num = "0";
 				s_time = "0";
 			}
-            res += check2(cnt++, s_date, s_type, stoi(s_num), s_op, sm_type, sm_name, stoi(sm_num), stoi(s_time), DtoHour(date));
+            res += check2(cnt++, s_date, s_type, stoi(s_num), s_op, sm_type, sm_name, stoi(sm_num), stoi(s_time), DtoHour(s_date));
             fin2 >> s_date;
         }
     } else if(flag == 1) {
