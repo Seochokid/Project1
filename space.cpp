@@ -15,7 +15,7 @@ void Space :: set_state(char in) {
 
 void Space :: set_borrow(string who, int when) {
     who_borrow = who;
-    when_borrow = when;
+    when_return = when;
 }
 
 char Space :: get_state() {
@@ -27,7 +27,7 @@ string Space :: get_who() {
 }
 
 int Space :: get_when() {
-    return when_borrow;
+    return when_return;
 }
 
 Study_room :: Study_room(int num, int many) {
@@ -41,28 +41,29 @@ void Study_room :: set_Sroom(char in, string who, int when, int many) {
     how_many = many;
 }
 
-Seat :: Seat(int f, int num) {
+int Study_room :: get_roomNum() {
+    return room_num;
+}
+
+Seat :: Seat(int f, int num, int come) {
     floor = f;
     seat_num = num;
+    when_come = come;
 }
 
-void Seat :: set_Seat(char in, string who, int when) {
+void Seat :: set_Seat(char in, string who, int when, int come) {
     set_state(in);
     set_borrow(who, when);
+    when_come = come;
 }
 
-bool Seat :: isAble(int time) {
-    switch(floor) {
-        case 1: 
-            return true;
-        case 2:
-            if(time>=9 && time<=21) return true;
-            else return false;
-        case 3:
-            if(time>=9 && time<=18) return true;
-            else return false;
-        default:
-            cout << "isAble error" << endl; 
-            return false;
-    }
+void Seat :: set_come(int come) {
+    when_come = come;
+}
+int Seat :: get_come() {
+    return when_come;
+}
+
+int Seat :: get_floor() {
+    return floor;
 }
