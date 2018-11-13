@@ -1090,13 +1090,16 @@ void library :: print_member() {
 }
 
 void library :: refresh(string date) {
+	if(today == "") {
+		today = date;
+	}
 	if(DtoInt(today) != DtoInt(date)) {
 		today = date;
 		for(auto s : srooms) {
 			s->set_Sroom('N', "", 0, 0);
 		}
-		for(auto s : seats) {
-			s->set_Seat('N', "", 0, 0);
+		for(auto k : seats) {
+			k->set_Seat('N', "", 0, 0);
 		}
 	} else {
 		if(date.length() == 13) {
