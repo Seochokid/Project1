@@ -491,7 +491,7 @@ string library :: check2(int cnt, string s_dateS, string s_type, int s_num, stri
 			output = output + to_string(cnt) + "\t" + "9\t" + "This space is not available now. Available from 09 to 21.\n";
 			return output;
 		} else if(s_type == "Seat" && s_num == 3 && (hour < 9 || hour >= 18)) {
-			output = output + to_string(cnt) + "\t" + "9\t" + "This space is not available now. Available from 09 to 21.\n";
+			output = output + to_string(cnt) + "\t" + "9\t" + "This space is not available now. Available from 09 to 18.\n";
 			return output;
 		}
 	}
@@ -501,7 +501,7 @@ string library :: check2(int cnt, string s_dateS, string s_type, int s_num, stri
 		if(s_type == "StudyRoom") {
 			for(auto s : srooms) {
 				if(s->get_roomNum() == s_num && s->get_who() != sm_name) {
-					output = output + to_string(cnt) + "\t" + "10\t" + "You did not borrow this space\n";
+					output = output + to_string(cnt) + "\t" + "10\t" + "You did not borrow this space.\n";
 					return output;
 				}
 			}
@@ -513,25 +513,25 @@ string library :: check2(int cnt, string s_dateS, string s_type, int s_num, stri
 				}
 			}
 			if(flag == 0) {
-				output = output + to_string(cnt) + "\t" + "10\t" + "You did not borrow this space\n";
+				output = output + to_string(cnt) + "\t" + "10\t" + "You did not borrow this space.\n";
 				return output;
 			}
 		}
 	}
 
-	//return_code 11 : You already borrow this kind of space
+	//return_code 11 : You already borrowed this kind of space
 	if(s_op == "B") {
 		if(s_type == "StudyRoom") {
 			for(auto s : srooms) {
 				if(s->get_who() == sm_name) {
-					output = output + to_string(cnt) + "\t" + "11\t" + "You already borrow this kind of space\n";
+					output = output + to_string(cnt) + "\t" + "11\t" + "You already borrowed this kind of space.\n";
 					return output;
 				}
 			}
 		} else if(s_type == "Seat") {
 			for(auto s : seats) {
 				if(s->get_who() == sm_name) {
-					output = output + to_string(cnt) + "\t" + "11\t" + "You already borrow this kind of space\n";
+					output = output + to_string(cnt) + "\t" + "11\t" + "You already borrowed this kind of space.\n";
 					return output;
 				}
 			}
@@ -984,7 +984,7 @@ void library :: result() {
     for(int i = 0; i < 8; i++) {
         fin2 >> dummy;
     }
-	int cnt = 0;
+	int cnt = 1;
     int flag = 0;
     int flag2 = 0;
 	fout << "Op_#\tReturn_code\tDescription\n"; 
@@ -1030,21 +1030,39 @@ void library :: result() {
         }
     }
     if(flag == 0) {
-        while(fin2 >> s_type) {
-            fin2 >> s_num;
-            fin2 >> s_op;
-            fin2 >> sm_type;
-            fin2 >> sm_name;
-			if(s_op == "B") {
-				fin2 >> sm_num;
-				fin2 >> s_time;		
-			} else {
-				sm_num = "0";
-				s_time = "0";
+		if(flag2 != 0){
+			while(fin2 >> s_type) {
+				fin2 >> s_num;
+				fin2 >> s_op;
+				fin2 >> sm_type;
+				fin2 >> sm_name;
+				if(s_op == "B") {
+					fin2 >> sm_num;
+					fin2 >> s_time;		
+				} else {
+					sm_num = "0";
+					s_time = "0";
+				}
+				res += check2(cnt++, s_date, s_type, stoi(s_num), s_op, sm_type, sm_name, stoi(sm_num), stoi(s_time), DtoHour(s_date));
+				fin2 >> s_date;
 			}
-            res += check2(cnt++, s_date, s_type, stoi(s_num), s_op, sm_type, sm_name, stoi(sm_num), stoi(s_time), DtoHour(s_date));
-            fin2 >> s_date;
-        }
+		} else if(flag2 == 0) {
+			while(fin2 >> s_date) {
+				fin2 >> s_type;
+				fin2 >> s_num;
+				fin2 >> s_op;
+				fin2 >> sm_type;
+				fin2 >> sm_name;
+				if(s_op == "B") {
+					fin2 >> sm_num;
+					fin2 >> s_time;		
+				} else {
+					sm_num = "0";
+					s_time = "0";
+				}
+				res += check2(cnt++, s_date, s_type, stoi(s_num), s_op, sm_type, sm_name, stoi(sm_num), stoi(s_time), DtoHour(s_date));
+			}
+		}
     } else if(flag == 1) {
         while(fin >> r_type) {
             fin >> r_name;
