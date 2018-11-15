@@ -10,10 +10,10 @@ library 클래스를 선언하면 resource.dat 파일과 input.dat 파일을 읽
 ```
 # Class description
 * library
-    * vector<book> B : book 클래스 벡터 변수
-    * vector<undergraduate> U : undergraduate 벡터 변수
-    * vector<Study_room*> srooms : Study_room 포인터 벡터 변수
-    * vector<Study_room*> seats : Seat 포인터 벡터 변수
+    * vector< book > B : book 클래스 벡터 변수
+    * vector< undergraduate > U : undergraduate 벡터 변수
+    * vector< Study_room* > srooms : Study_room 포인터 벡터 변수
+    * vector< Study_room* > seats : Seat 포인터 벡터 변수
 
     * void resource_data(); : resource.dat 파일을 읽어 book 벡터에 push 하는 함수
     * string check(int cnt, int date, string r_type, string r_name, string op, string m_type, string m_name); : input.dat 파일을 읽어 한줄(op 1개) 에 대한 return code를 판단 후 output.dat에 적을 string을 리턴해주고 book, undergraduate 벡터에 수정이 필요한 경우 인자들을 Update()함수로 넘겨준다.
@@ -30,7 +30,7 @@ library 클래스를 선언하면 resource.dat 파일과 input.dat 파일을 읽
 
 * member(undergraduate)
     * string _name : 멤버 이름
-	* map<string, int> _borrow : 멤버가 빌린 resource를 resource name을 키로 가지고 빌린 날짜를 value로 가지는 map 구조로 저장
+	* map< string, int > _borrow : 멤버가 빌린 resource를 resource name을 키로 가지고 빌린 날짜를 value로 가지는 map 구조로 저장
 	* int _restrict_date : 도서관 이용이 언제까지 제한되는지 날짜를 저장 (제한되지 않았을 시 0)
 
     * 그 외 getter, setter 함수들

@@ -350,7 +350,7 @@ string library :: check2(int cnt, string s_dateS, string s_type, int s_num, stri
 			for(auto s : srooms) {
 				if(s->get_roomNum() == s_num && s->get_state() != 'N') {
 					if(s->get_when() >= 18) {
-						next_time = "09";
+						next_time = "18";
 					} else {
 						next_time = HtoString(s->get_when());
 					}
@@ -377,8 +377,10 @@ string library :: check2(int cnt, string s_dateS, string s_type, int s_num, stri
 					} else {
 						next_time = HtoString(min);
 					}
-				} else if((s_num == 2 && min >= 21) || (s_num == 3 && min >= 18)) {
-					next_time = "09";
+				} else if(s_num == 2 && min >= 21) {
+					next_time = "21";
+				} else if (s_num == 3 && min >= 18) {
+					next_time = "18";
 				} else {
 					next_time = HtoString(min);
 				}
