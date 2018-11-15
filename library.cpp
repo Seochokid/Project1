@@ -483,17 +483,15 @@ string library :: check2(int cnt, string s_dateS, string s_type, int s_num, stri
 	}
 
 	//return_code 9 : This space is not available now
-	if(s_op == "B") {
-		if(s_type == "StudyRoom" && (hour < 9 || hour >= 18)) {
-			output = output + to_string(cnt) + "\t" + "9\t" + "This space is not available now. Available from 09 to 18.\n";
-			return output;
-		} else if(s_type == "Seat" && s_num == 2 && (hour < 9 || hour >= 21)) {
-			output = output + to_string(cnt) + "\t" + "9\t" + "This space is not available now. Available from 09 to 21.\n";
-			return output;
-		} else if(s_type == "Seat" && s_num == 3 && (hour < 9 || hour >= 18)) {
-			output = output + to_string(cnt) + "\t" + "9\t" + "This space is not available now. Available from 09 to 18.\n";
-			return output;
-		}
+	if(s_type == "StudyRoom" && (hour < 9 || hour >= 18)) {
+		output = output + to_string(cnt) + "\t" + "9\t" + "This space is not available now. Available from 09 to 18.\n";
+		return output;
+	} else if(s_type == "Seat" && s_num == 2 && (hour < 9 || hour >= 21)) {
+		output = output + to_string(cnt) + "\t" + "9\t" + "This space is not available now. Available from 09 to 21.\n";
+		return output;
+	} else if(s_type == "Seat" && s_num == 3 && (hour < 9 || hour >= 18)) {
+		output = output + to_string(cnt) + "\t" + "9\t" + "This space is not available now. Available from 09 to 18.\n";
+		return output;
 	}
 
 	//return_code 10 : You did not borrow this space
@@ -1106,31 +1104,15 @@ void library :: refresh(string date) {
 		if(date.length() == 13) {
 			today = date;
 			int currentH = DtoHour(date);
-			if(currentH > 18) {
-				for(auto s : srooms) {
-					s->set_Sroom('N', "", 0, 0);
-				}
-				for(auto s : seats) {
-					if(s->get_floor() == 3) {
-						s->set_Seat('N', "", 0, 0);
-					}
-				}
-			} else if(currentH > 21) {
-				for(auto s : seats) {
-					if(s->get_floor() == 2) {
-						s->set_Seat('N', "", 0, 0);
-					}
-				}
-			}
 			for(auto s : srooms) {
-				if(s->get_state() != 'N' && currentH >= s->get_when()) {
+				if(s->get_state() != 'N' && currentH > s->get_when()) {
 					s->set_Sroom('N', "", 0, 0);
 				}
 			}
 			for(auto s : seats) {
-				if(s->get_state() == 'U' && currentH >= s->get_when()) {
+				if(s->get_state() == 'U' && currentH > s->get_when()) {
 					s->set_Seat('N', "", 0, 0);
-				} else if(s->get_state() == 'A' && currentH >= s->get_come()) {
+				} else if(s->get_state() == 'A' && currentH > s->get_come()) {
 					s->set_Seat('N', "", 0, 0);
 				}
 			}
