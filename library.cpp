@@ -864,7 +864,49 @@ void library :: result() {
 				sm_num = "0";
 				s_time = "0";
 			}
-            res += check2(cnt++, s_date, s_type, stoi(s_num), s_op, sm_type, sm_name, stoi(sm_num), stoi(s_time), DtoHour(s_date));
+			try{
+				if(DtoInt(s_date) < DtoInt("10/01/01")) {
+					throw 1;
+				} else if(s_type != "StudyRoom" && s_type != "Seat") {
+					throw 2;
+				} else if(s_op != "B" && s_op != "R" && s_op != "E" && s_op != "C") {
+					throw 3;
+				} else if(sm_type != "Undergraduate" && sm_type != "Graduate" && sm_type != "Faculty") {
+					throw 4;
+				} else if(NumInString(sm_name)) {
+					throw 5;
+				} else if(stoi(s_time) < 0) {
+					throw 6;
+				} else {
+					res += check2(cnt++, s_date, s_type, stoi(s_num), s_op, sm_type, sm_name, stoi(sm_num), stoi(s_time), DtoHour(s_date));
+				}
+			} catch (int err) {
+				char next;
+				while(fin2.get(next)) {
+					if (next == '\n') break;                         
+				}
+				switch(err) {
+					case 1:
+						res += to_string(cnt) + "\t" + "-1\t" + "Date out of range.\n";
+						break;
+					case 2:
+						res += to_string(cnt) + "\t" + "-1\t" + "Non-exist space type.\n";
+						break;
+					case 3:
+						res += to_string(cnt) + "\t" + "-1\t" + "Non-exist operation.\n";
+						break;
+					case 4:
+						res += to_string(cnt) + "\t" + "-1\t" + "Non-exist member type.\n";
+						break;
+					case 5:
+						res += to_string(cnt) + "\t" + "-1\t" + "Member name with numbers.\n";
+						break;
+					case 6:
+						res += to_string(cnt) + "\t" + "-1\t" + "Negative time.\n";
+						break;
+					default: break;
+				}
+			}
         }
     }
     if(flag == 0) {
@@ -881,7 +923,49 @@ void library :: result() {
 					sm_num = "0";
 					s_time = "0";
 				}
-				res += check2(cnt++, s_date, s_type, stoi(s_num), s_op, sm_type, sm_name, stoi(sm_num), stoi(s_time), DtoHour(s_date));
+				try{
+					if(DtoInt(s_date) < DtoInt("10/01/01")) {
+						throw 1;
+					} else if(s_type != "StudyRoom" && s_type != "Seat") {
+						throw 2;
+					} else if(s_op != "B" && s_op != "R" && s_op != "E" && s_op != "C") {
+						throw 3;
+					} else if(sm_type != "Undergraduate" && sm_type != "Graduate" && sm_type != "Faculty") {
+						throw 4;
+					} else if(NumInString(sm_name)) {
+						throw 5;
+					} else if(stoi(s_time) < 0) {
+						throw 6;
+					} else {
+						res += check2(cnt++, s_date, s_type, stoi(s_num), s_op, sm_type, sm_name, stoi(sm_num), stoi(s_time), DtoHour(s_date));
+					}
+				} catch (int err) {
+					char next;
+					while(fin2.get(next)) {
+						if (next == '\n') break;                         
+					}
+					switch(err) {
+						case 1:
+							res += to_string(cnt) + "\t" + "-1\t" + "Date out of range.\n";
+							break;
+						case 2:
+							res += to_string(cnt) + "\t" + "-1\t" + "Non-exist space type.\n";
+							break;
+						case 3:
+							res += to_string(cnt) + "\t" + "-1\t" + "Non-exist operation.\n";
+							break;
+						case 4:
+							res += to_string(cnt) + "\t" + "-1\t" + "Non-exist member type.\n";
+							break;
+						case 5:
+							res += to_string(cnt) + "\t" + "-1\t" + "Member name with numbers.\n";
+							break;
+						case 6:
+							res += to_string(cnt) + "\t" + "-1\t" + "Negative time.\n";
+							break;
+						default: break;
+					}
+				}
 				fin2 >> s_date;
 			}
 		} else if(flag2 == 0) {
@@ -898,7 +982,49 @@ void library :: result() {
 					sm_num = "0";
 					s_time = "0";
 				}
-				res += check2(cnt++, s_date, s_type, stoi(s_num), s_op, sm_type, sm_name, stoi(sm_num), stoi(s_time), DtoHour(s_date));
+				try{
+					if(DtoInt(s_date) < DtoInt("10/01/01")) {
+						throw 1;
+					} else if(s_type != "StudyRoom" && s_type != "Seat") {
+						throw 2;
+					} else if(s_op != "B" && s_op != "R" && s_op != "E" && s_op != "C") {
+						throw 3;
+					} else if(sm_type != "Undergraduate" && sm_type != "Graduate" && sm_type != "Faculty") {
+						throw 4;
+					} else if(NumInString(sm_name)) {
+						throw 5;
+					} else if(stoi(s_time) < 0) {
+						throw 6;
+					} else {
+						res += check2(cnt++, s_date, s_type, stoi(s_num), s_op, sm_type, sm_name, stoi(sm_num), stoi(s_time), DtoHour(s_date));
+					}
+				} catch (int err) {
+					char next;
+					while(fin2.get(next)) {
+						if (next == '\n') break;                         
+					}
+					switch(err) {
+						case 1:
+							res += to_string(cnt) + "\t" + "-1\t" + "Date out of range.\n";
+							break;
+						case 2:
+							res += to_string(cnt) + "\t" + "-1\t" + "Non-exist space type.\n";
+							break;
+						case 3:
+							res += to_string(cnt) + "\t" + "-1\t" + "Non-exist operation.\n";
+							break;
+						case 4:
+							res += to_string(cnt) + "\t" + "-1\t" + "Non-exist member type.\n";
+							break;
+						case 5:
+							res += to_string(cnt) + "\t" + "-1\t" + "Member name with numbers.\n";
+							break;
+						case 6:
+							res += to_string(cnt) + "\t" + "-1\t" + "Negative time.\n";
+							break;
+						default: break;
+					}
+				}
 			}
 		}
     } else if(flag == 1) {
@@ -982,4 +1108,11 @@ string library :: HtoString(int hour) {
 	if(hour<10) str = "0" + to_string(hour);
 	else str = to_string(hour);
 	return str;
+}
+
+bool library :: NumInString(string str) {
+	for(int i = 48; i < 58; i++) {
+		if(str.find(i) != -1) return true;
+	}
+	return false;
 }
