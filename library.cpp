@@ -887,22 +887,22 @@ void library :: result() {
 				}
 				switch(err) {
 					case 1:
-						res += to_string(cnt) + "\t" + "-1\t" + "Date out of range.\n";
+						res += to_string(cnt++) + "\t" + "-1\t" + "Date out of range.\n";
 						break;
 					case 2:
-						res += to_string(cnt) + "\t" + "-1\t" + "Non-exist space type.\n";
+						res += to_string(cnt++) + "\t" + "-1\t" + "Non-exist space type.\n";
 						break;
 					case 3:
-						res += to_string(cnt) + "\t" + "-1\t" + "Non-exist operation.\n";
+						res += to_string(cnt++) + "\t" + "-1\t" + "Non-exist operation.\n";
 						break;
 					case 4:
-						res += to_string(cnt) + "\t" + "-1\t" + "Non-exist member type.\n";
+						res += to_string(cnt++) + "\t" + "-1\t" + "Non-exist member type.\n";
 						break;
 					case 5:
-						res += to_string(cnt) + "\t" + "-1\t" + "Member name with numbers.\n";
+						res += to_string(cnt++) + "\t" + "-1\t" + "Member name with numbers.\n";
 						break;
 					case 6:
-						res += to_string(cnt) + "\t" + "-1\t" + "Negative time.\n";
+						res += to_string(cnt++) + "\t" + "-1\t" + "Negative time.\n";
 						break;
 					default: break;
 				}
@@ -946,22 +946,22 @@ void library :: result() {
 					}
 					switch(err) {
 						case 1:
-							res += to_string(cnt) + "\t" + "-1\t" + "Date out of range.\n";
+							res += to_string(cnt++) + "\t" + "-1\t" + "Date out of range.\n";
 							break;
 						case 2:
-							res += to_string(cnt) + "\t" + "-1\t" + "Non-exist space type.\n";
+							res += to_string(cnt++) + "\t" + "-1\t" + "Non-exist space type.\n";
 							break;
 						case 3:
-							res += to_string(cnt) + "\t" + "-1\t" + "Non-exist operation.\n";
+							res += to_string(cnt++) + "\t" + "-1\t" + "Non-exist operation.\n";
 							break;
 						case 4:
-							res += to_string(cnt) + "\t" + "-1\t" + "Non-exist member type.\n";
+							res += to_string(cnt++) + "\t" + "-1\t" + "Non-exist member type.\n";
 							break;
 						case 5:
-							res += to_string(cnt) + "\t" + "-1\t" + "Member name with numbers.\n";
+							res += to_string(cnt++) + "\t" + "-1\t" + "Member name with numbers.\n";
 							break;
 						case 6:
-							res += to_string(cnt) + "\t" + "-1\t" + "Negative time.\n";
+							res += to_string(cnt++) + "\t" + "-1\t" + "Negative time.\n";
 							break;
 						default: break;
 					}
@@ -1005,22 +1005,22 @@ void library :: result() {
 					}
 					switch(err) {
 						case 1:
-							res += to_string(cnt) + "\t" + "-1\t" + "Date out of range.\n";
+							res += to_string(cnt++) + "\t" + "-1\t" + "Date out of range.\n";
 							break;
 						case 2:
-							res += to_string(cnt) + "\t" + "-1\t" + "Non-exist space type.\n";
+							res += to_string(cnt++) + "\t" + "-1\t" + "Non-exist space type.\n";
 							break;
 						case 3:
-							res += to_string(cnt) + "\t" + "-1\t" + "Non-exist operation.\n";
+							res += to_string(cnt++) + "\t" + "-1\t" + "Non-exist operation.\n";
 							break;
 						case 4:
-							res += to_string(cnt) + "\t" + "-1\t" + "Non-exist member type.\n";
+							res += to_string(cnt++) + "\t" + "-1\t" + "Non-exist member type.\n";
 							break;
 						case 5:
-							res += to_string(cnt) + "\t" + "-1\t" + "Member name with numbers.\n";
+							res += to_string(cnt++) + "\t" + "-1\t" + "Member name with numbers.\n";
 							break;
 						case 6:
-							res += to_string(cnt) + "\t" + "-1\t" + "Negative time.\n";
+							res += to_string(cnt++) + "\t" + "-1\t" + "Negative time.\n";
 							break;
 						default: break;
 					}
