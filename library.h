@@ -34,4 +34,5 @@ public:
 	void refresh(string date);
 	string get_type(string name);
 	string HtoString(int hour);
+	bool NumInString(string str);
 };

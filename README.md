@@ -27,6 +27,7 @@ library 클래스를 선언하면 resource.dat 파일과 input.dat 파일을 읽
     * void refresh(string date); : 인풋이 들어올때마다 날짜가 지났는지, 좌석 대출 기간이 지났는지 판단하여 Studyroom과 Seat를 초기화해주는 함수
     * string get_type(string name); : 멤버 이름을 입력 받으면 멤버 타입을 반환해주는 함수
     * string HtoString(int hour); : Int형식의 시간(9)을 String 형식(09)으로 변환해주는 함수
+    * bool NumInString(string str); : string에 숫자가 포함되어있는지 확인하는 함수 (포함되어 있으면 true 반환, 아닐시 false 반환)
 
 * member(undergraduate)
     * string _name : 멤버 이름
