@@ -31,6 +31,7 @@ class magazine : public resource{
 private:
 	int _year;
 	int _month;
+	bool usable;
 public:
 	magazine();
 	magazine(string name, int month);
@@ -39,6 +40,8 @@ public:
 	void set_year(int year);
 	int get_year();
 	string getName();
+	bool get_usable();
+	void set_usable(bool b);
 };
 
 class e_book : public resource{

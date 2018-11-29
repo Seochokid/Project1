@@ -62,28 +62,37 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 
 	for(auto s : M) {
 		if(s->get_year() == 0) {
-			if(s->get_month()>m) s->set_year(y-1);
-			else s->set_year(y);
+			if(s->get_month()>m) {
+				s->set_year(y-1);
+				s->set_usable(true);
+			} else {
+				s->set_year(y);
+				s->set_usable(true);
+			}
 		} else {
-			if(s->get_year() < y && s->get_month() < m && s->get_who_borrow() == "") {
-				auto iter = M.begin();
-				while(iter != M.end()) {
-					if((*iter)->get_year() != 0 && (*iter)->get_year() < y && (*iter)->get_month() < m && (*iter)->get_who_borrow() == "") {
-						delete *iter;
-						iter = M.erase(iter);
-						break;
+			if(s->get_usable()) {
+				if(s->get_who_borrow() == "") {
+					if(s->get_month()>m) {
+						s->set_year(y-1);
+						s->set_usable(true);
+					} else {
+						s->set_year(y);
+						s->set_usable(true);
 					}
-					else ++iter;
-				}
-			}
-			if(s->get_month() == m) {
-				if(s->get_who_borrow() != "") {
-					magazine* input = new magazine(s->resource::getName(), m, y);
-					M.push_back(input);
 				} else {
-					s->set_year(y);
+					if(s->get_year()<y && s->get_month()<=m) {
+						s->set_usable(false);
+						magazine* tmp = new magazine(s->resource::getName(), s->get_month(), y);
+						M.push_back(tmp);
+					} else if(s->get_year()<y-1) {
+						s->set_usable(false);
+						magazine* tmp = new magazine(s->resource::getName(), s->get_month(), y-1);
+						M.push_back(tmp);
+					}
 				}
+
 			}
+			
 		}
 	}
 
@@ -118,7 +127,10 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 		}
 	} else if(r_type == "Magazine") {
 		for(auto s : M) {
-			if(s->getName() == r_name) flag = 1;
+			if(s->getName() == r_name) {
+				if(op=="B" && s->get_usable()) flag = 1;
+				else if(op == "R") flag = 1;
+			} 
 		}
 	} else if(r_type == "E-book") {
 		for(auto s : E) {

@@ -51,12 +51,14 @@ magazine :: magazine(string name, int month) {
 	setName(name);
 	_month = month;
 	_year = 0;
+	usable = false;
 }
 
 magazine :: magazine(string name, int month, int year) {
 	setName(name);
 	_month = month;
 	_year = year;
+	usable = true;
 }
 
 int magazine :: get_month() {
@@ -84,6 +86,14 @@ string magazine :: getName() {
 
 	res+="["+year+"/"+month+"]";
 	return res;
+}
+
+bool magazine :: get_usable() {
+	return usable;
+}
+
+void magazine :: set_usable(bool b) {
+	usable = b;
 }
 
 e_book :: e_book() {
