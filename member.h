@@ -8,7 +8,7 @@ private:
 	string _name;
 	map<string, int> _borrow;
 	int _restrict_date;
-
+	int _capacity;
 public:
 	member();
 	void set_member(string name);
@@ -20,7 +20,9 @@ public:
 	bool get_borrow_fact(string res);
 	void insert_borrow(string res, int date);
 	void delete_borrow(string res);
-
+	void set_capacity(int cap);
+	int get_capacity();
+	map<string,int> get_map();
 };
 
 class undergraduate : public member{

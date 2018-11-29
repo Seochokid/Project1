@@ -17,8 +17,7 @@ string resource :: getName() {
 	return _name;
 }
 
-void resource :: insert_borrow_inf(string name, string who, int date) {
-	_name = name;
+void resource :: insert_borrow_inf(string who, int date) {
 	_who_borrow = who;
 	_borrow_date = date;
 }
@@ -48,14 +47,76 @@ magazine :: magazine() {
 
 }
 
-magazine :: magazine(string name) {
+magazine :: magazine(string name, int month) {
 	setName(name);
+	_month = month;
+	_year = 0;
+}
+
+magazine :: magazine(string name, int month, int year) {
+	setName(name);
+	_month = month;
+	_year = year;
+}
+
+int magazine :: get_month() {
+	return _month;
+}
+
+void magazine :: set_year(int year) {
+	_year = year;
+}
+
+int magazine :: get_year() {
+	return _year;
+}
+
+string magazine :: getName() {
+	string res = resource::getName();
+
+	string year = "";
+	if(to_string(_year).length() == 1) year = "0"+to_string(_year);
+	else year = to_string(_year);
+
+	string month = "";
+	if(to_string(_month).length() == 1) month = "0"+to_string(_month);
+	else month = to_string(_month);
+
+	res+="["+year+"/"+month+"]";
+	return res;
 }
 
 e_book :: e_book() {
 
 }
 
-e_book :: e_book(string name) {
+e_book :: e_book(string e_b) {
+	string name;
+	int num = e_b.rfind('[');
+	name.assign(e_b,0,num);
 	setName(name);
+	
+	int size;
+	int num1 = e_b.rfind('[');
+	int num2 = e_b.rfind(']');
+	string temp;
+	temp.assign(e_b,num1+1,num2-num1+1);
+	size = stoi(temp);
+	_size = size;
+}
+
+int e_book :: get_size() {
+	return _size;
+}
+
+void e_book :: insert_borrow_inf(string who, int date) {
+	_borrow.insert(make_pair(who,date));
+}
+
+int e_book :: get_borrow_date(string who) {
+	return _borrow.find(who)->second;
+}
+
+void e_book :: del_borrow_inf(string who) {
+	_borrow.erase(who);
 }

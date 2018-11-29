@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <map>
 using namespace std;
 
 class resource {
@@ -12,7 +13,7 @@ public:
 	resource();
 	void setName(string name);
 	string getName();
-	void insert_borrow_inf(string name, string who, int date);
+	void insert_borrow_inf(string who, int date);
 	string get_who_borrow();
 	int get_borrow_date();
 	void del_borrow_inf();
@@ -28,16 +29,27 @@ public:
 
 class magazine : public resource{
 private:
-
+	int _year;
+	int _month;
 public:
 	magazine();
-	magazine(string name);
+	magazine(string name, int month);
+	magazine(string name, int month, int year);
+	int get_month();
+	void set_year(int year);
+	int get_year();
+	string getName();
 };
 
 class e_book : public resource{
 private:
-
+	map<string, int> _borrow;
+	int _size;
 public:
 	e_book();
-	e_book(string name);
+	e_book(string e_b);
+	int get_size();
+	void insert_borrow_inf(string who, int date);
+	int get_borrow_date(string who);
+	void del_borrow_inf(string who);
 };

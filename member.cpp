@@ -8,6 +8,7 @@ member :: member() {
 	_name = "";
 	_restrict_date = 0;
 	_borrow.clear();
+	_capacity = 0;
 }
 
 void member :: set_member(string name) {
@@ -45,6 +46,18 @@ void member :: insert_borrow(string res, int date) {
 
 void member :: delete_borrow(string res) {
 	_borrow.erase(res);
+}
+
+void member :: set_capacity(int cap) {
+	_capacity = cap;
+}
+
+int member :: get_capacity() {
+	return _capacity;
+}
+
+map<string,int> member :: get_map() {
+	return _borrow;
 }
 
 undergraduate :: undergraduate() {

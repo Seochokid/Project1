@@ -6,12 +6,12 @@ using namespace std;
 
 class library {
 private:
-	vector<book> B;
-	vector<magazine> M;
-	vector<e_book> E;
-	vector<undergraduate> U;
-	vector<graduate> G;
-	vector<faculty> F;
+	vector<book*> B;
+	vector<magazine*> M;
+	vector<e_book*> E;
+	vector<undergraduate*> U;
+	vector<graduate*> G;
+	vector<faculty*> F;
 public:
 	library();
 	void resource_data();
