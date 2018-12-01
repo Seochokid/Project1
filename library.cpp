@@ -90,7 +90,6 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 						M.push_back(tmp);
 					}
 				}
-
 			}
 			
 		}
@@ -393,6 +392,48 @@ string library :: check(int cnt, int date, string r_type, string r_name, string 
 		for(auto s : F) {
 			if(s->get_member() == m_name && s->get_capacity() + size > 1000) {
 				output = output + to_string(cnt) + "\t" + "15\t" + "Exceeds your storage capacity." + "\n";
+				return output;
+			}
+		}
+	}
+
+	//return_code ?? : not return delayed resource
+	if(op == "B") {
+		int _flag = 0;
+		if(m_type == "Undergraduate") {
+			for(auto s : U) {
+				if(s->get_member() == m_name) {
+					for(auto t : s->get_map()) {
+						if(t.second + 13 < date) _flag = 1;
+					}
+				}
+			}
+			if(_flag == 1){
+				output = output + to_string(cnt) + "\t" + "??\t" + "You have a resource has to return." + "\n";
+				return output;
+			}
+		} else if(m_type == "Graduate") {
+			for(auto s : G) {
+				if(s->get_member() == m_name) {
+					for(auto t : s->get_map()) {
+						if(t.second + 29 < date) _flag = 1;
+					}
+				}
+			}
+			if(_flag == 1){
+				output = output + to_string(cnt) + "\t" + "??\t" + "You have a resource has to return." + "\n";
+				return output;
+			}
+		} else if(m_type == "Faculty") {
+			for(auto s : F) {
+				if(s->get_member() == m_name) {
+					for(auto t : s->get_map()) {
+						if(t.second + 29 < date) _flag = 1;
+					}
+				}
+			}
+			if(_flag == 1){
+				output = output + to_string(cnt) + "\t" + "??\t" + "You have a resource has to return." + "\n";
 				return output;
 			}
 		}
