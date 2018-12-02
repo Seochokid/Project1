@@ -79,9 +79,8 @@ string library :: check(int cnt, string dateS, string r_type, string r_name, str
 	//Magazine update
 	int y, m ,d;
 	y = date/360;
-	m = ((date%360)/30);
-	if(((date%360)%30) == 0) d = 30;
-	else d = ((date%360)%30);
+	m = ((date%360)/30)+1;
+	d = ((date%360)%30)+1;
 
 	for(auto s : M) {
 		if(s->get_year() == 0) {
@@ -371,7 +370,7 @@ string library :: check(int cnt, string dateS, string r_type, string r_name, str
 				if(r_type == "E-book"){
 					s->delete_borrow(r_name);
 				} else {
-					output = output + to_string(cnt) + "\t" + "7\t" + "Delayed return. You'll be restricted until "+ DtoString(2*date - (s->get_borrow_date(r_name)+13)) + "\n";
+					output = output + to_string(cnt) + "\t" + "7\t" + "Delayed return. You'll be restricted until "+ DtoString(2*date - (s->get_borrow_date(r_name)+29)) + "\n";
 					Update(date, m_type, m_name, r_type, r_name, 1);
 					return output;
 				}
@@ -382,7 +381,7 @@ string library :: check(int cnt, string dateS, string r_type, string r_name, str
 				if(r_type == "E-book"){
 					s->delete_borrow(r_name);
 				} else {
-					output = output + to_string(cnt) + "\t" + "7\t" + "Delayed return. You'll be restricted until "+ DtoString(2*date - (s->get_borrow_date(r_name)+13)) + "\n";
+					output = output + to_string(cnt) + "\t" + "7\t" + "Delayed return. You'll be restricted until "+ DtoString(2*date - (s->get_borrow_date(r_name)+29)) + "\n";
 					Update(date, m_type, m_name, r_type, r_name, 1);
 					return output;
 				}
@@ -920,7 +919,7 @@ int library :: DtoInt(string date) {
 	d = tok;
 	day = stoi(d);
 
-	return year*360 + month*30 + day;
+	return year*360 + (month-1)*30 + (day-1);
 }
 
 string library :: DtoString(int date) {
@@ -932,13 +931,12 @@ string library :: DtoString(int date) {
 	if(year.length()<2) year = "0" + year;
 
 	date %= 360;
-	m = (date/30);
+	m = (date/30)+1;
 	month = to_string(m);
 	if(month.length()<2) month = "0" + month;
 	
 	date %= 30;
-	if(date == 0) d = 30;
-	else d = date;
+	d = date+1;
 	day = to_string(d);
 	if(day.length()<2) day = "0" + day;
 	
