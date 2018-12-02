@@ -419,22 +419,10 @@ string library :: check(int cnt, string dateS, string r_type, string r_name, str
 		}
 	}
 
-	//return_code ?? : not return delayed resource
+	//return_code 16 : not return delayed resource
 	if(op == "B") {
 		int _flag = 0;
-		if(m_type == "Undergraduate") {
-			for(auto s : U) {
-				if(s->get_member() == m_name) {
-					for(auto t : s->get_map()) {
-						if(t.second + 13 < date) _flag = 1;
-					}
-				}
-			}
-			if(_flag == 1){
-				output = output + to_string(cnt) + "\t" + "??\t" + "You have a resource has to return." + "\n";
-				return output;
-			}
-		} else if(m_type == "Graduate") {
+		if(m_type == "Graduate") {
 			for(auto s : G) {
 				if(s->get_member() == m_name) {
 					for(auto t : s->get_map()) {
@@ -443,7 +431,7 @@ string library :: check(int cnt, string dateS, string r_type, string r_name, str
 				}
 			}
 			if(_flag == 1){
-				output = output + to_string(cnt) + "\t" + "??\t" + "You have a resource has to return." + "\n";
+				output = output + to_string(cnt) + "\t" + "16\t" + "Previously borrowed books are overdue, so borrow is limited" + "\n";
 				return output;
 			}
 		} else if(m_type == "Faculty") {
@@ -455,7 +443,7 @@ string library :: check(int cnt, string dateS, string r_type, string r_name, str
 				}
 			}
 			if(_flag == 1){
-				output = output + to_string(cnt) + "\t" + "??\t" + "You have a resource has to return." + "\n";
+				output = output + to_string(cnt) + "\t" + "16\t" + "Previously borrowed books are overdue, so borrow is limited" + "\n";
 				return output;
 			}
 		}
@@ -559,7 +547,7 @@ string library :: check2(int cnt, string s_dateS, string s_type, int s_num, stri
 				return output;
 			}
 		} else if(s_type == "Seat") {
-			if(sm_type == "Undergraduate" && s_time > 3) {
+			if(s_time > 3) {
 				output = output + to_string(cnt) + "\t" + "13\t" + "Exceed available time.\n";
 				return output;
 			}
