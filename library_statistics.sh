@@ -40,7 +40,60 @@ main() {
 }
 
 resource() {
-
+    mkdir -p ./result/resource
+    if [ $1 = "book" ]
+    then
+        read line < resource.dat;
+        echo "$line" > ./result/resource/book.dat
+        one=0
+        while read T N || [ -n "$T" ];
+        do
+            if [ $one = 0 ]
+            then
+                ((one++))
+            elif [ $T = "Book" ]
+            then
+                echo -e "$T\t$N" >> ./result/resource/book.dat
+            fi
+        done < resource.dat
+    elif [ $1 = "e-book" ]
+    then
+        read line < resource.dat;
+        echo "$line" > ./result/resource/e-book.dat
+        one=0
+        while read T N || [ -n "$T" ];
+        do
+            if [ $one = 0 ]
+            then
+                ((one++))
+            elif [ $T = "E-book" ]
+            then
+                echo -e "$T\t$N" >> ./result/resource/e-book.dat
+            fi
+        done < resource.dat
+    elif [ $1 = "magazine" ]
+    then
+        read line < resource.dat;
+        echo "$line" > ./result/resource/magazine.dat
+        one=0
+        while read T N || [ -n "$T" ];
+        do
+            if [ $one = 0 ]
+            then
+                ((one++))
+            elif [ $T = "Magazine" ]
+            then
+                echo -e "$T\t$N" >> ./result/resource/magazine.dat
+            fi
+        done < resource.dat
+    elif [ $1 = "all" ]
+    then
+        resource book
+        resource e-book
+        resource magazine
+    else
+        echo "parameter 2 error"
+    fi
 }
 
 input() {
