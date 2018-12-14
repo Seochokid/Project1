@@ -326,7 +326,277 @@ input() {
 }
 
 space() {  
+    mkdir -p ./result/space
+    if [ $1 = "date" ]
+    then
+        from_year=`echo $2 | cut -d'/' -f1`
+        from_month=`echo $2 | cut -d'/' -f2`
+        from_day=`echo $2 | cut -d'/' -f3`
+        from_hour=`echo $2 | cut -d'/' -f4`
+        to_year=`echo $3 | cut -d'/' -f1`
+        to_month=`echo $3 | cut -d'/' -f2`
+        to_day=`echo $3 | cut -d'/' -f3`
+        to_hour=`echo $3 | cut -d'/' -f4`
+        read line < space.dat;
+        echo "$line" > new_space.dat
+        one=0
+        while read A B C D E F G H || [ -n "$A" ];
+        do
+            if [ $one = 0 ]
+            then
+                ((one++))
+            else
+                input_year=`echo $A | cut -d'/' -f1`
+                ((input_year-=2000))
+                input_month=`echo $A | cut -d'/' -f2`
+                input_day=`echo $A | cut -d'/' -f3`
+                input_hour=`echo $A | cut -d'/' -f4`
 
+                if [ $from_year -lt $input_year -a $input_year -lt $to_year ]
+                then
+                    echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+                elif [ $from_year = $input_year -a $input_year -lt $to_year ]
+                then
+                    if [ $from_month -lt $input_month ]
+                    then
+                        echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+                    elif [ $from_month = $input_month ]
+                    then
+                        if [ $from_day -lt $input_day ]
+                        then
+                            echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+                        elif [ $from_day = $input_day ]
+                        then
+                            if [ $from_hour -le $input_hour ]
+                            then
+                                echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+                            fi
+                        fi
+                    fi
+                elif [ $from_year -lt $input_year -a $input_year = $to_year ]
+                then
+                    if [ $input_month -lt $to_month ]
+                    then
+                        echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+                    elif [ $input_month = $to_month ]
+                    then
+                        if [ $input_day -lt $to_day ]
+                        then
+                            echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+                        elif [ $input_day = $to_day ]
+                        then
+                            if [ $input_hour -le $to_hour ]
+                            then
+                                echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+                            fi
+                        fi
+                    fi
+                elif [ $from_year = $input_year -a $input_year = $to_year ]
+                then
+                    if [ $from_month -lt $input_month -a $input_month -lt $to_month ]
+                    then
+                        echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+                    elif [ $from_month = $input_month -a $input_month -lt $to_month ]
+                    then
+                        if [ $from_day -lt $input_day ]
+                        then
+                            echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+                        elif [ $from_day = $input_day ]
+                        then
+                            if [ $from_hour -le $input_hour ]
+                            then
+                                echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+                            fi
+                        fi
+                    elif [ $from_month -lt $input_month -a $input_month = $to_month ]
+                    then
+                        if [ $input_day -lt $to_day ]
+                        then
+                            echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+                        elif [ $input_day = $to_day ]
+                        then
+                            if [ $input_hour -le $to_hour ]
+                            then
+                                echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+                            fi
+                        fi
+                    elif [ $from_month = $input_month -a $input_month = $to_month ]
+                    then
+                        if [ $from_day -lt $input_day -a $input_day -lt $to_day ]
+                        then
+                            echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+                        elif [ $from_day = $input_day -a $input_day -lt $to_day ]
+                        then
+                            if [ $from_hour -le $input_hour ]
+                            then
+                                echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+                            fi
+                        elif [ $from_day -lt $input_day -a $input_day = $to_day ]
+                        then
+                            if [ $input_hour -le $to_hour ]
+                            then
+                                echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+                            fi
+                        elif [ $from_day = $input_day -a $input_day = $to_day ]
+                        then
+                            if [ $from_hour -le $input_hour -a $input_hour -le $to_hour ]
+                            then
+                                echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+                            fi
+                        fi
+                    fi
+                fi
+            fi
+        done < space.dat
+        rm space.dat
+        cp new_space.dat space.dat
+        ./library
+        cp output.dat ./result/space/date.dat
+        rm new_space.dat
+        rm output.dat
+        cp space.bak space.dat
+    elif [ $1 = "studyroom" ]
+    then
+        read line < space.dat;
+        echo "$line" > new_space.dat
+        one=0
+        while read A B C D E F G H || [ -n "$A" ];
+        do
+            if [ $one = 0 ]
+            then
+                ((one++))
+            elif [ $B = "StudyRoom" ]
+            then
+                if [ $2 = "all" ]
+                then
+                    echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+                elif [ 1 -le $2 -a $2 -le 10 ]
+                then
+                    if [ $C = $2 ]
+                    then
+                        echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+                    fi
+                else
+                    echo "parameter 3 error"
+                fi
+            fi
+        done < space.dat
+        rm space.dat
+        cp new_space.dat space.dat
+        ./library
+        cp output.dat ./result/space/studyroom.dat
+        rm new_space.dat
+        rm output.dat
+        cp space.bak space.dat
+    elif [ $1 = "seat" ]
+    then
+        read line < space.dat;
+        echo "$line" > new_space.dat
+        one=0
+        while read A B C D E F G H || [ -n "$A" ];
+        do
+            if [ $one = 0 ]
+            then
+                ((one++))
+            elif [ $B = "Seat" ]
+            then
+                if [ $2 = "all" ]
+                then
+                    echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+                elif [ 1 -le $2 -a $2 -le 3 ]
+                then
+                    if [ $C = $2 ]
+                    then
+                        echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+                    fi
+                else
+                    echo "parameter 3 error"
+                fi
+            fi
+        done < space.dat
+        rm space.dat
+        cp new_space.dat space.dat
+        ./library
+        cp output.dat ./result/space/seat.dat
+        rm new_space.dat
+        rm output.dat
+        cp space.bak space.dat
+    elif [ $1 = "undergraduate" ]
+    then
+        read line < space.dat;
+        echo "$line" > new_space.dat
+        one=0
+        while read A B C D E F G H || [ -n "$A" ];
+        do
+            if [ $one = 0 ]
+            then
+                ((one++))
+            elif [ $E = "Undergraduate" ]
+            then
+                echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+            fi
+        done < space.dat
+        rm space.dat
+        cp new_space.dat space.dat
+        ./library
+        cp output.dat ./result/space/undergraduate.dat
+        rm new_space.dat
+        rm output.dat
+        cp space.bak space.dat
+    elif [ $1 = "graduate" ]
+    then
+        read line < space.dat;
+        echo "$line" > new_space.dat
+        one=0
+        while read A B C D E F G H || [ -n "$A" ];
+        do
+            if [ $one = 0 ]
+            then
+                ((one++))
+            elif [ $E = "Graduate" ]
+            then
+                echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+            fi
+        done < space.dat
+        rm space.dat
+        cp new_space.dat space.dat
+        ./library
+        cp output.dat ./result/space/graduate.dat
+        rm new_space.dat
+        rm output.dat
+        cp space.bak space.dat
+    elif [ $1 = "faculty" ]
+    then
+        read line < space.dat;
+        echo "$line" > new_space.dat
+        one=0
+        while read A B C D E F G H || [ -n "$A" ];
+        do
+            if [ $one = 0 ]
+            then
+                ((one++))
+            elif [ $E = "Faculty" ]
+            then
+                echo -e "$A\t$B\t$C\t$D\t$E\t$F\t$G\t$H" >> new_space.dat
+            fi
+        done < space.dat
+        rm space.dat
+        cp new_space.dat space.dat
+        ./library
+        cp output.dat ./result/space/faculty.dat
+        rm new_space.dat
+        rm output.dat
+        cp space.bak space.dat
+    elif [ $1 = "all" ]
+    then
+        space studyroom all
+        space seat all
+        space undergraduate
+        space graduate
+        space faculty
+    else
+        echo "parameter 2 error"
+    fi
 }
 
 output() {
