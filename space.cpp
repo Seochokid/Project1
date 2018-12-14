@@ -31,6 +31,8 @@ int Space :: get_when() {
 }
 
 Study_room :: Study_room(int num, int many) {
+    set_state('N');
+    set_borrow("", 0);
     room_num = num;
     how_many = many;
 }
@@ -46,6 +48,8 @@ int Study_room :: get_roomNum() {
 }
 
 Seat :: Seat(int f, int num, int come) {
+    set_state('N');
+    set_borrow("", 0);
     floor = f;
     seat_num = num;
     when_come = come;

@@ -576,6 +576,7 @@ string library :: check2(int cnt, string s_dateS, string s_type, int s_num, stri
 					if(s->get_state() == 'N') {
 						flag = 1;
 					} else {
+						cout << s->get_state() << endl;
 						if(min > s->get_when()) min = s->get_when();
 					}
 				}

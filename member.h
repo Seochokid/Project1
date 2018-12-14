@@ -23,6 +23,7 @@ public:
 	void set_capacity(int cap);
 	int get_capacity();
 	map<string,int> get_map();
+	void del_bor_map();
 };
 
 class undergraduate : public member{

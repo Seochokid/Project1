@@ -10,13 +10,15 @@ library 클래스를 선언하면 resource.dat 파일과 input.dat 파일을 읽
 ```
 # Class description
 * library
-    * vector< book > B : book 클래스 벡터 변수
-    * vector< undergraduate > U : undergraduate 벡터 변수
+    * vector< book* > B : book 클래스 포인터 벡터 변수터
+    * vector< magazine* > M : magazine 클래스 포인터 벡터 변수터
+    * vector< e_book* > E : e_book 클래스 포인터 벡터 변수터
+    * vector< undergraduate* > U : undergraduate 포인터 벡터 변수
     * vector< Study_room* > srooms : Study_room 포인터 벡터 변수
     * vector< Study_room* > seats : Seat 포인터 벡터 변수
 
     * void resource_data(); : resource.dat 파일을 읽어 book 벡터에 push 하는 함수
-    * string check(int cnt, int date, string r_type, string r_name, string op, string m_type, string m_name); : input.dat 파일을 읽어 한줄(op 1개) 에 대한 return code를 판단 후 output.dat에 적을 string을 리턴해주고 book, undergraduate 벡터에 수정이 필요한 경우 인자들을 Update()함수로 넘겨준다.
+    * string check(int cnt, int date, string r_type, string r_name, string op, string m_type, string m_name); : input.dat 파일을 읽어 한줄(op 1개) 에 대한 return code를 판단 후 output.dat에 적을 string을 리턴해주고 벡터들에 수정이 필요한 경우 인자들을 Update()함수로 넘겨준다.
     * string check2(int cnt, string s_dateS, string s_type, int s_num, string s_op, string sm_type, string sm_name, int sm_num, int s_time, int hour); : space.dat 파일을 읽어 한줄(op 1개) 에 대한 return code를 판단 후 output.dat에 적을 string을 리턴해주고 Study_room, Seat 벡터에 수정이 필요한 경우에는 setter를 이용하여 수정해준다. (int hour:인풋 요청 날짜 string(2019/11/12/06) 에서 시간(6)추출)
     * void Update(int date, string m_type, string m_name, string r_type, string r_name, int op); : check()함수에서 받은 정보를 가지고 book, undergraduate 벡터를 수정하는 함수
     * bool is_registered(string name, string type); : 인자로 받는 이름이 도서관 book 벡터에 등록이 되어있는지 확인하는 함수

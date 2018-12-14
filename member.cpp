@@ -60,41 +60,72 @@ map<string,int> member :: get_map() {
 	return _borrow;
 }
 
-undergraduate :: undergraduate() {
+void member :: del_bor_map(){
+	_borrow.clear();
+}
 
+undergraduate :: undergraduate() {
+	set_member("");
+	set_restrict_date(0);
+	del_bor_map();
+	set_capacity(0);
 }
 
 undergraduate :: undergraduate(string name) {
 	set_member(name);
+	set_restrict_date(0);
+	del_bor_map();
+	set_capacity(0);
 }
 
 undergraduate :: undergraduate(string name, string res, int date) {
 	set_member(name);
+	del_bor_map();
 	insert_borrow(res, date);
+	set_restrict_date(0);
+	set_capacity(0);
 }
 
 graduate :: graduate() {
-
+	set_member("");
+	set_restrict_date(0);
+	del_bor_map();
+	set_capacity(0);
 }
 
 graduate :: graduate(string name) {
 	set_member(name);
+	set_restrict_date(0);
+	del_bor_map();
+	set_capacity(0);
 }
 
 graduate :: graduate(string name, string res, int date) {
 	set_member(name);
+	del_bor_map();
 	insert_borrow(res, date);
+	set_restrict_date(0);
+	set_capacity(0);
 }
 
 faculty :: faculty() {
-
+	set_member("");
+	set_restrict_date(0);
+	del_bor_map();
+	set_capacity(0);
 }
 
 faculty :: faculty(string name) {
 	set_member(name);
+	set_restrict_date(0);
+	del_bor_map();
+	set_capacity(0);
 }
 
 faculty :: faculty(string name, string res, int date) {
 	set_member(name);
+	del_bor_map();
 	insert_borrow(res, date);
+	set_restrict_date(0);
+	set_capacity(0);
 }

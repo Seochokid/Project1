@@ -36,19 +36,23 @@ void resource :: del_borrow_inf() {
 }
 
 book :: book() {
-
+	setName("");
+	del_borrow_inf();
 }
 
 book :: book(string name) {
+	del_borrow_inf();
 	setName(name);
 }
 
 magazine :: magazine() {
-
+	setName("");
+	del_borrow_inf();
 }
 
 magazine :: magazine(string name, int month) {
 	setName(name);
+	del_borrow_inf();
 	_month = month;
 	_year = 0;
 	usable = false;
@@ -56,6 +60,7 @@ magazine :: magazine(string name, int month) {
 
 magazine :: magazine(string name, int month, int year) {
 	setName(name);
+	del_borrow_inf();
 	_month = month;
 	_year = year;
 	usable = true;
@@ -97,7 +102,7 @@ void magazine :: set_usable(bool b) {
 }
 
 e_book :: e_book() {
-
+	setName("");
 }
 
 e_book :: e_book(string e_b) {
