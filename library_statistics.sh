@@ -600,7 +600,39 @@ space() {
 }
 
 output() {
+    mkdir -p ./result/output
+    if [ $1 = "stat_table" ]
+    then
+        read line < output.dat;
+        echo -e "Return_code\tNumber" > ./result/output/stat_table.dat
+        r_code=(0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0)
 
+        one=0
+        while read A B C || [ -n "$A" ];
+        do
+            if [ $one = 0 ]
+            then
+                ((one++))
+            else
+                if [ $B = -1 ]
+                then
+                    ((r_code[17]++))
+                else
+                    ((r_code[$B]++))
+                fi
+            fi
+        done < output.dat
+        one=-1
+        for (( i = 0 ; i < ${#r_code[@]} ; i++ )); do
+            if [ $i = 17 ]
+            then
+                echo -e "-1\t${r_code[$i]}" >> ./result/output/stat_table.dat
+            else echo -e "$i\t${r_code[$i]}" >> ./result/output/stat_table.dat
+            fi
+        done
+    else
+        echo "parameter 2 error"
+    fi
 }
 
 mkdir -p result
